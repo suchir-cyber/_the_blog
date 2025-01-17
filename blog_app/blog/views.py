@@ -38,8 +38,19 @@ class UserPostListView(ListView):
         return Post.objects.filter(author=user).order_by('-date_posted')
 
 
-class PostDetailView(DetailView):
+class PostDetailView(LoginRequiredMixin, DetailView):
     model = Post
+
+    def get(self, request, *args, **kwargs):
+        post = get_object_or_404(Post, pk=self.kwargs['pk'])
+        profile = request.user.profile  # Access the authenticated user's profile
+
+        if not profile.viewed_posts.filter(pk=post.pk).exists():
+            post.view_count += 1
+            post.save(update_fields=['view_count'])
+            profile.viewed_posts.add(post)  # Mark the post as viewed by this user
+
+        return super().get(request, *args, **kwargs)
 
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
