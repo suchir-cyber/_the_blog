@@ -121,3 +121,39 @@ padding-bottom: 10px;
 display: none; /* Initially hidden */
 margin-top: 20px;
 }
+
+/* Voting Section Styling */
+.voting-section {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Slightly reduced spacing between items */
+}
+
+/* Styling for Arrows */
+.vote-arrow {
+  font-size: 24px;
+  cursor: pointer;
+  color: gray;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.vote-arrow:hover {
+  color: black; /* Darker color on hover */
+  transform: scale(1.2); /* Slight zoom effect */
+}
+
+.vote-arrow.voted {
+  color: green; /* Highlight for upvote */
+}
+
+.vote-arrow.downvote.voted {
+  color: red; /* Highlight for downvote */
+}
+
+/* Styling for Vote Count */
+.vote-count {
+  font-size: 16px;
+  font-weight: bold;
+  margin-left: 3px; /* Reduced spacing on the left side */
+  margin-right: 3px; /* Reduced spacing on the right side */
+}

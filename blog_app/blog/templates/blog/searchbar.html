@@ -48,6 +48,23 @@
             </div>
             <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
+            <div class="voting-section">
+              <!-- Upvote Arrow -->
+              <span 
+                  class="vote-arrow upvote {% if post.user_upvoted %}voted{% endif %}" 
+                  onclick="toggleVote({{ post.id }}, 'upvote')">
+                  &#x25B2;
+              </span>
+              <span class="vote-count">{{ post.upvotes }}</span>
+          
+              <!-- Downvote Arrow -->
+              <span 
+                  class="vote-arrow downvote {% if post.user_downvoted %}voted{% endif %}" 
+                  onclick="toggleVote({{ post.id }}, 'downvote')">
+                  &#x25BC;
+              </span>
+              <span class="vote-count">{{ post.downvotes }}</span>
+          </div>
           </div>
         </article>
     {% endfor %}

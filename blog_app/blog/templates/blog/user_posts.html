@@ -2,18 +2,39 @@
 {% block content %}
     <h1 class="mb-3">Posts by {{ view.kwargs.username }} ({{ page_obj.paginator.count }})</h1>
     {% for post in posts %}
-        <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-              <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
-            </div>
-            <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.content }}</p>
-          </div>
-        </article>
-    {% endfor %}
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+          <small class="text-muted">{{ post.date_posted|date:"F d,Y"}}</small>
+          <span class="ml-2">
+            <i class="fas fa-eye"></i> {{ post.view_count }} 
+          </span>
+        </div>
+        <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
+        <p class="article-content">{{ post.content }}</p>
+        
+        <div class="voting-section">
+          <!-- Upvote Arrow -->
+          <span 
+              class="vote-arrow upvote {% if post.user_upvoted %}voted{% endif %}" 
+              onclick="toggleVote({{ post.id }}, 'upvote')">
+              &#x25B2;
+          </span>
+          <span class="vote-count">{{ post.upvotes }}</span>
+      
+          <!-- Downvote Arrow -->
+          <span 
+              class="vote-arrow downvote {% if post.user_downvoted %}voted{% endif %}" 
+              onclick="toggleVote({{ post.id }}, 'downvote')">
+              &#x25BC;
+          </span>
+          <span class="vote-count">{{ post.downvotes }}</span>
+      </div>
+      </div>
+    </article>
+{% endfor %}
     {% if is_paginated %}
 
       {% if page_obj.has_previous %}
